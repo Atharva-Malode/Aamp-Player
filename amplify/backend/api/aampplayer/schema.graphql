@@ -1,0 +1,52 @@
+type Song {
+  id: ID!
+  title: String!
+  artist: String!
+  album: String!
+  duration: Int!
+  url: String!
+}
+
+type Playlist {
+  id: ID!
+  name: String!
+  description: String
+  songs: [Song!]!
+  owner: String!
+}
+
+type User {
+  id: ID!
+  username: String!
+  email: String!
+  playlists: [Playlist!]!
+  favorites: [Song!]!
+}
+
+type Query {
+  getSong(id: ID!): Song
+  getAllSongs: [Song!]!
+  getPlaylist(id: ID!): Playlist
+  getUser(id: ID!): User
+}
+
+type Mutation {
+  createSong(
+    title: String!
+    artist: String!
+    album: String!
+    duration: Int!
+    url: String!
+  ): Song
+  createPlaylist(name: String!, description: String): Playlist
+  addSongToPlaylist(playlistId: ID!, songId: ID!): Playlist
+  removeSongFromPlaylist(playlistId: ID!, songId: ID!): Playlist
+  addUserToFavorites(userId: ID!, songId: ID!): User
+  removeUserFromFavorites(userId: ID!, songId: ID!): User
+}
+
+type Subscription {
+  onSongAdded: Song
+  onPlaylistUpdated(playlistId: ID!): Playlist
+  onUserUpdated(userId: ID!): User
+}
